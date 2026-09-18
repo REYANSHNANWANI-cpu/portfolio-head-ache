@@ -138,6 +138,20 @@ export default function Home() {
           </motion.div>
         </section>
 
+        <section className="business-section section-pad" aria-labelledby="business-section-title">
+          <div className="business-section-inner">
+            <span className="eyebrow">The owned advantage</span>
+            <h2 id="business-section-title">Your business deserves<br /><span>more than just social media.</span></h2>
+            <div className="business-copy">
+              <p>Instagram and WhatsApp are great for connecting with customers, but your business needs a professional website to build a strong and trusted online presence.</p>
+              <p>Imagine a customer searching for your business online. Instead of finding only social media posts, they discover a professional website showing your services, products, photos, customer reviews, location, contact details, and WhatsApp button—all in one place.</p>
+              <p>Your website works 24/7, helps customers find you on Google, builds credibility, and makes it easier for people to contact you and enquire about your services. You also own and control your website, unlike social media platforms where algorithms and account changes can affect your reach.</p>
+              <p>Use Instagram and WhatsApp to attract customers. Use your website to turn that attention into enquiries and sales.</p>
+              <p className="business-close">Let us build a professional website that makes your business look trustworthy, modern, and ready to grow.</p>
+            </div>
+          </div>
+        </section>
+
         <InversionCircle />
 
         <section id="work" className="work-section section-pad">
