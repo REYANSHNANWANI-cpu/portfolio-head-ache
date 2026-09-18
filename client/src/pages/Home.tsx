@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { ArrowDownRight, ArrowUpRight, Check, ChevronDown, CircleArrowOutUpRight, Menu, X } from "lucide-react";
-import { trpc } from "@/lib/trpc";
+import { ArrowDownRight, ArrowUpRight, Menu, X } from "lucide-react";
 
 type Project = {
   title: string;
@@ -109,25 +108,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", projectDescription: "" });
-  const submitInquiry = trpc.inquiries.submit.useMutation();
-  const [submitted, setSubmitted] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 130]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  const updateField = (field: keyof typeof form, value: string) => setForm(current => ({ ...current, [field]: value }));
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    submitInquiry.mutate(form, { onSuccess: () => { setSubmitted(true); setForm({ name: "", email: "", phone: "", projectDescription: "" }); } });
-  };
-
   return (
     <div className="site-shell">
       <header className="site-nav">
         <a className="brand" href="#top" aria-label="Reyansh Nanwani home"><span className="brand-mark">RN</span><span><b>Reyansh Nanwani</b><small>Web Designer & Developer</small></span></a>
-        <nav className={menuOpen ? "nav-links is-open" : "nav-links"}><a href="#work" onClick={() => setMenuOpen(false)}>Work</a><a href="#services" onClick={() => setMenuOpen(false)}>Services</a><a href="#studio" onClick={() => setMenuOpen(false)}>Studio</a><a className="nav-cta" href="#contact" onClick={() => setMenuOpen(false)}>Start a project <ArrowUpRight size={14} /></a></nav>
+        <nav className={menuOpen ? "nav-links is-open" : "nav-links"}><a href="#work" onClick={() => setMenuOpen(false)}>Work</a><a href="#services" onClick={() => setMenuOpen(false)}>Services</a><a href="#studio" onClick={() => setMenuOpen(false)}>Studio</a><a className="nav-cta" href="mailto:reyanshnanwani1@gmail.com" onClick={() => setMenuOpen(false)}>Start a project <ArrowUpRight size={14} /></a></nav>
         <button className="menu-toggle" onClick={() => setMenuOpen(value => !value)} aria-label="Toggle navigation">{menuOpen ? <X size={20} /> : <Menu size={20} />}</button>
       </header>
 
@@ -140,7 +130,7 @@ export default function Home() {
               <div className="hero-copy">
                 <h1><span>Web experiences</span><span>built to <em>move</em></span><span>business forward.</span></h1>
                 <p>Strategy, design, and full-stack development for businesses that want a clear, credible, and high-performing digital presence.</p>
-                <div className="hero-actions"><a className="button-dark" href="#contact">Tell me about your project <ArrowUpRight size={16} /></a><a className="text-link" href="#work">Explore selected work <ArrowDownRight size={16} /></a></div>
+                <div className="hero-actions"><a className="button-dark" href="mailto:reyanshnanwani1@gmail.com">Tell me about your project <ArrowUpRight size={16} /></a><a className="text-link" href="#work">Explore selected work <ArrowDownRight size={16} /></a></div>
               </div>
               <BrowserPreview />
             </div>
@@ -160,16 +150,9 @@ export default function Home() {
           <div className="service-list">{services.map(([number, title, description]) => <div className="service-row" key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p><ArrowUpRight size={20} /></div>)}</div>
         </section>
 
-        <section id="contact" className="contact-section section-pad">
-          <div className="contact-intro"><span className="eyebrow">Start a conversation</span><h2>Have a project<br /><span>in mind?</span></h2><p>Share a little about what you are building. I’ll get back to you with a clear next step.</p><div className="contact-note"><span className="status-dot" /> Usually replies within 1–2 business days</div></div>
-          <div className="inquiry-card">
-            {submitted ? <div className="success-state"><div className="success-icon"><Check size={22} /></div><h3>Message received.</h3><p>Thank you. I’ll review the brief and be in touch soon.</p><button className="text-link" onClick={() => setSubmitted(false)}>Send another message <ArrowUpRight size={15} /></button></div> : <form onSubmit={handleSubmit}><div className="form-topline"><span>Project inquiry</span><span>01 / 01</span></div><label><span>Your name</span><input required minLength={2} value={form.name} onChange={event => updateField("name", event.target.value)} placeholder="Jane Smith" /></label><label><span>Email address</span><input required type="email" value={form.email} onChange={event => updateField("email", event.target.value)} placeholder="jane@company.com" /></label><label><span>Phone number</span><input required value={form.phone} onChange={event => updateField("phone", event.target.value)} placeholder="+91 98765 43210" /></label><label><span>Tell me about the project</span><textarea required minLength={20} maxLength={2000} value={form.projectDescription} onChange={event => updateField("projectDescription", event.target.value)} placeholder="What are you looking to build, improve, or launch?" rows={4} /></label>{submitInquiry.error && <p className="form-error">Please check your details and try again.</p>}<button className="button-dark form-button" type="submit" disabled={submitInquiry.isPending}>{submitInquiry.isPending ? "Sending…" : "Send inquiry"} <ArrowUpRight size={16} /></button><small className="privacy-note">Your details are used only to respond to this inquiry.</small></form>}
-          </div>
-        </section>
       </main>
 
-      <footer className="site-footer"><a className="brand" href="#top"><span className="brand-mark">RN</span><span><b>Reyansh Nanwani</b><small>Web Designer & Developer</small></span></a><div><span>© 2026 Reyansh Nanwani</span><a href="#top">Back to top <ArrowUpRight size={14} /></a></div></footer>
-      <a className="floating-cta" href="#contact"><CircleArrowOutUpRight size={17} /> Start a project</a>
+      <footer className="site-footer"><a className="brand" href="#top"><span className="brand-mark">RN</span><span><b>Reyansh Nanwani</b><small>Web Designer & Developer</small></span></a><div className="footer-actions"><a className="footer-contact footer-whatsapp" href="https://wa.me/919423028865" target="_blank" rel="noreferrer">Contact on WhatsApp <ArrowUpRight size={14} /></a><a className="footer-contact footer-email" href="https://mail.google.com/mail/?view=cm&fs=1&to=reyanshnanwani1@gmail.com" target="_blank" rel="noreferrer">Contact on Gmail <ArrowUpRight size={14} /></a></div><div><span>© 2026 Reyansh Nanwani</span><a href="#top">Back to top <ArrowUpRight size={14} /></a></div></footer>
     </div>
   );
 }
